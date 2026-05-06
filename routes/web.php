@@ -2,7 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\ProductoController;
 use Inertia\Inertia;
+
+
+Route::resource('productos', ProductoController::class);
 
 // ─── Rutas públicas (invitados) ─────────────────────────
 Route::middleware('guest')->group(function () {
