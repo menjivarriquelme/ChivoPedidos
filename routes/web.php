@@ -3,10 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ClienteController;
 use Inertia\Inertia;
-
-
-Route::resource('productos', ProductoController::class);
 
 // ─── Rutas públicas (invitados) ─────────────────────────
 Route::middleware('guest')->group(function () {
@@ -25,4 +23,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    // ─── Productos ──────────────────────────────────────
+    Route::resource('productos', ProductoController::class);
+
+    // ─── Clientes ───────────────────────────────────────
+    Route::middleware('permission:clientes.ver')->group(function () {
+        Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes.index');
+        Route::get('/clientes/{cliente}/edit', [ClienteController::class, 'edit'])->name('clientes.edit');
+        Route::put('/clientes/{cliente}', [ClienteController::class, 'update'])->name('clientes.update');
+    });
+
+    Route::middleware('permission:clientes.crear')->group(function () {
+        Route::get('/clientes/create', [ClienteController::class, 'create'])->name('clientes.create');
+        Route::post('/clientes', [ClienteController::class, 'store'])->name('clientes.store');
+    });
 });
