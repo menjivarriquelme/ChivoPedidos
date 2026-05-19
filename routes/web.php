@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\UsuarioController;
 use Inertia\Inertia;
 
 // ─── Rutas públicas (invitados) ─────────────────────────
@@ -38,5 +39,19 @@ Route::middleware('auth')->group(function () {
     Route::middleware('permission:clientes.crear')->group(function () {
         Route::get('/clientes/create', [ClienteController::class, 'create'])->name('clientes.create');
         Route::post('/clientes', [ClienteController::class, 'store'])->name('clientes.store');
+    });
+
+        // ─── Usuarios ───────────────────────────────────────
+    Route::middleware('permission:usuarios.crear')->group(function () {
+        Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('usuarios.create');
+        Route::post('/usuarios', [UsuarioController::class, 'store'])->name('usuarios.store');
+    });
+
+    Route::middleware('permission:usuarios.ver')->group(function () {
+        Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
+        Route::get('/usuarios/{usuario}', [UsuarioController::class, 'show'])->name('usuarios.show');
+        Route::get('/usuarios/{usuario}/edit', [UsuarioController::class, 'edit'])->name('usuarios.edit');
+        Route::put('/usuarios/{usuario}', [UsuarioController::class, 'update'])->name('usuarios.update');
+        Route::patch('/usuarios/{usuario}/toggle', [UsuarioController::class, 'toggleActivo'])->name('usuarios.toggle');
     });
 });
