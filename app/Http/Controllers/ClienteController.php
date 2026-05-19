@@ -31,7 +31,7 @@ class ClienteController extends Controller
             'direccion' => 'nullable|string|max:255',
             'dui'       => 'nullable|string|max:10|unique:clientes,dui',
             'notas'     => 'nullable|string',
-            'activo'    => 'boolean',
+            'activo'    => 'required',
         ]);
 
         Cliente::create($validated);
@@ -63,5 +63,14 @@ class ClienteController extends Controller
 
         return redirect()->route('clientes.index')
             ->with('success', 'Cliente actualizado correctamente.');
+
+            
+    }
+
+        public function show(Cliente $cliente) //metodo show controlador 
+    {
+        return Inertia::render('Clientes/Show', [
+            'cliente' => $cliente,
+        ]);
     }
 }

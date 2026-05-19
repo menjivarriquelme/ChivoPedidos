@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
-import { Pencil, Plus, UserCheck, UserX } from 'lucide-react';
+import { Pencil, Plus, UserCheck, UserX, Eye } from 'lucide-react';
 
 export default function Index({ auth, clientes }) {
     return (
@@ -56,12 +56,20 @@ export default function Index({ auth, clientes }) {
                                         )}
                                     </td>
                                     <td className="px-4 py-3">
-                                        <Link
-                                            href={route('clientes.edit', cliente.id)}
-                                            className="flex items-center gap-1 text-blue-600 hover:underline"
-                                        >
-                                            <Pencil size={14} /> Editar
-                                        </Link>
+                                        <div className="flex items-center gap-3">
+                                            <Link
+                                                href={route('clientes.show', cliente.id)}
+                                                className="flex items-center gap-1 text-gray-600 hover:underline"
+                                            >
+                                                <Eye size={14} /> Ver
+                                            </Link>
+                                            <Link
+                                                href={route('clientes.edit', cliente.id)}
+                                                className="flex items-center gap-1 text-blue-600 hover:underline"
+                                            >
+                                                <Pencil size={14} /> Editar
+                                            </Link>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

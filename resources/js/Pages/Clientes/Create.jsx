@@ -21,7 +21,7 @@ export default function Create({ auth }) {
         direccion: '',
         dui: '',
         notas: '',
-        activo: true,
+        activo: true, //siempre activo a la hora de crearse 
     });
 
     function submit(e) {
@@ -55,12 +55,7 @@ export default function Create({ auth }) {
                     <Field label="Notas" error={errors.notas}>
                         <textarea className={input} rows={3} value={data.notas} onChange={e => setData('notas', e.target.value)} />
                     </Field>
-                    <Field label="Estado" error={errors.activo}>
-                        <select className={input} value={data.activo ? '1' : '0'} onChange={e => setData('activo', e.target.value === '1')}>
-                            <option value="1">Activo</option>
-                            <option value="0">Inactivo</option>
-                        </select>
-                    </Field>
+                    
 
                     <div className="flex gap-3 pt-2">
                         <button type="submit" disabled={processing}

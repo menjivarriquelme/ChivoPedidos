@@ -29,9 +29,10 @@ Route::middleware('auth')->group(function () {
 
     // ─── Clientes ───────────────────────────────────────
     Route::middleware('permission:clientes.ver')->group(function () {
-        Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes.index');
-        Route::get('/clientes/{cliente}/edit', [ClienteController::class, 'edit'])->name('clientes.edit');
-        Route::put('/clientes/{cliente}', [ClienteController::class, 'update'])->name('clientes.update');
+        Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes.index'); //vista
+        Route::get('/clientes/{cliente}/edit', [ClienteController::class, 'edit'])->name('clientes.edit');//clientes editar
+        Route::put('/clientes/{cliente}', [ClienteController::class, 'update'])->name('clientes.update'); //actualizacion
+        Route::get('/clientes/{cliente}', [ClienteController::class, 'show'])->name('clientes.show'); //visualizacion 
     });
 
     Route::middleware('permission:clientes.crear')->group(function () {
