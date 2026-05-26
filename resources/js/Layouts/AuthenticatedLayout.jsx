@@ -27,7 +27,6 @@ function getNavigation(can, isAdmin) {
         { name: 'Clientes', href: '/clientes', icon: Users, show: can('clientes.ver') },
         { name: 'Pedidos', href: '/pedidos', icon: ShoppingCart, show: can('pedidos.ver') },
         { name: 'Pagos', href: '/pagos', icon: CreditCard, show: can('pagos.ver') },
-        { name: 'Reportes', href: '/reportes', icon: BarChart3, show: can('reportes.ver') },
     ];
 
     return items.filter((item) => item.show);

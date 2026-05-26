@@ -64,7 +64,7 @@
 - Componentes UI reutilizables (Button, Card, Badge, Input, Label)
 - Hook `usePermissions()` para control de acceso en el frontend
 
-**Módulos planificados:** Categorías · Productos · Clientes · Pedidos · Pagos · Reportes · Configuración
+**Módulos planificados:** Categorías · Productos · Clientes · Pedidos · Pagos ·  · Configuración
 
 ---
 
@@ -303,7 +303,7 @@ El sistema usa [Spatie Laravel-Permission](https://spatie.be/docs/laravel-permis
 | Clientes | `clientes.ver` · `clientes.crear` · `clientes.editar` |
 | Pedidos | `pedidos.ver` · `pedidos.crear` · `pedidos.editar` |
 | Pagos | `pagos.ver` · `pagos.crear` |
-| Reportes | `reportes.ver` |
+
 
 
 </div>

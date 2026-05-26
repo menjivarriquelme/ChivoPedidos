@@ -64,7 +64,7 @@ php artisan tinker
 
 ### Navigation
 The sidebar in `AuthenticatedLayout.jsx` defines the full intended feature set:
-Dashboard → Categorías → Productos → Clientes → Pedidos → Pagos → Reportes → Configuración
+Dashboard → Categorías → Productos → Clientes → Pedidos → Pagos  → Configuración
 
 Most routes beyond `/dashboard` are not yet implemented.
 

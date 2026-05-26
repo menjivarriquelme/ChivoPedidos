@@ -22,8 +22,20 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    return Inertia::render('Dashboard', [
+        'stats' => [
+            'productos' => \App\Models\Producto::count(),
+            'clientes'  => \App\Models\Cliente::count(),
+            'pedidos'   => 0,
+            'ingresos'  => '$0.00',
+        ],
+        'clientes_recientes' => \App\Models\Cliente::orderBy('created_at', 'desc')->take(5)->get(['id', 'nombre', 'email', 'activo', 'created_at']),
+        'usuarios' => [
+            'total'   => \App\Models\User::count(),
+            'activos' => \App\Models\User::where('activo', true)->count(),
+        ],
+    ]);
+})->name('dashboard');
 
     // ─── Productos ──────────────────────────────────────
     Route::resource('productos', ProductoController::class);
