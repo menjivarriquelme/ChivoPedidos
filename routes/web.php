@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\ConfiguracionController;
 
 use Inertia\Inertia;
 
@@ -70,4 +71,9 @@ Route::middleware('auth')->group(function () {
         Route::patch('/usuarios/{usuario}/toggle', [UsuarioController::class, 'toggleActivo'])->name('usuarios.toggle');
         Route::get('/usuarios/{usuario}', [UsuarioController::class, 'show'])->name('usuarios.show');
     });
+
+            // ─── Configuración ──────────────────────────────────
+    Route::get('/configuracion', [ConfiguracionController::class, 'index'])->name('configuracion.index');
+    Route::put('/configuracion', [ConfiguracionController::class, 'update'])->name('configuracion.update');
+
 });
