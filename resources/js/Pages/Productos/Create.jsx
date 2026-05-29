@@ -106,8 +106,8 @@ export default function Create({ categorias }) {
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-150 bg-white"
                             >
                                 <option value="" disabled>Seleccionar categoría</option>
-                                {categorias.map(c => (
-                                    <option key={c.id} value={c.id}>{c.nombre}</option>
+                                {categorias.map((categoria) => (
+                                    <option key={categoria.id} value={categoria.id}>{categoria.nombre}</option>
                                 ))}
                             </select>
                             {errors.categoria_id && <p className="text-xs text-red-500 mt-1">{errors.categoria_id}</p>}

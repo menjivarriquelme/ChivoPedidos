@@ -35,6 +35,16 @@ class ProductoController extends Controller
             'descripcion'  => 'nullable|string',
         ]);
 
+    $categoria = Categoria::find($request->categoria_id);
+
+    if (!$categoria->estado) {
+        return redirect()
+            ->back()
+            ->withErrors(['categoria_id' => 'No puedes crear un producto con una categoria desactivada'])
+            ->withInput();
+    }
+
+
         Producto::create($request->all());
 
         return redirect()->route('productos.index');
