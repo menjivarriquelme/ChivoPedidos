@@ -5,7 +5,12 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\PedidoController;
 use Inertia\Inertia;
+use App\Models\Producto;
+use App\Models\Cliente;
+use App\Models\Pedido;
+use App\Models\User;
 use App\Http\Controllers\CategoriaController;
 
 // ─── Rutas públicas (invitados) ─────────────────────────
@@ -23,18 +28,35 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Dashboard', [
+            'stats' => [
+                'productos' => Producto::count(),
+                'clientes'  => Cliente::count(),
+                'pedidos'   => Pedido::count(),
+                'ingresos'  => '$' . number_format(
+                    Pedido::where('estado', 'entregado')->sum('total'), 2
+                ),
+            ],
+            'clientes_recientes' => Cliente::latest()->take(5)->get(),
+            'usuarios' => [
+                'total'   => User::count(),
+                'activos' => User::where('activo', true)->count(),
+            ],
+        ]);
     })->name('dashboard');
 
     // ─── Productos ──────────────────────────────────────
     Route::resource('productos', ProductoController::class);
 
+    // ─── Pedidos ────────────────────────────────────────
+    Route::resource('pedidos', PedidoController::class);
+
     // ─── Clientes ───────────────────────────────────────
     Route::middleware('permission:clientes.ver')->group(function () {
-        Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes.index'); //vista
-        Route::get('/clientes/{cliente}/edit', [ClienteController::class, 'edit'])->name('clientes.edit');//clientes editar
-        Route::put('/clientes/{cliente}', [ClienteController::class, 'update'])->name('clientes.update'); //actualizacion
-        Route::get('/clientes/{cliente}', [ClienteController::class, 'show'])->name('clientes.show'); //visualizacion 
+        Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes.index');
+        Route::get('/clientes/{cliente}/edit', [ClienteController::class, 'edit'])->name('clientes.edit');
+        Route::put('/clientes/{cliente}', [ClienteController::class, 'update'])->name('clientes.update');
+        Route::get('/clientes/{cliente}', [ClienteController::class, 'show'])->name('clientes.show');
     });
 
     Route::middleware('permission:clientes.crear')->group(function () {
@@ -42,7 +64,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/clientes', [ClienteController::class, 'store'])->name('clientes.store');
     });
 
-        // ─── Usuarios ───────────────────────────────────────
+    // ─── Usuarios ───────────────────────────────────────
     Route::middleware('permission:usuarios.crear')->group(function () {
         Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('usuarios.create');
         Route::post('/usuarios', [UsuarioController::class, 'store'])->name('usuarios.store');
@@ -56,11 +78,11 @@ Route::middleware('auth')->group(function () {
         Route::patch('/usuarios/{usuario}/toggle', [UsuarioController::class, 'toggleActivo'])->name('usuarios.toggle');
     });
 
-     // ─── Categorias ───────────────────────────────────────
-        Route::resource('categorias', CategoriaController::class);
+    // ─── Categorias ─────────────────────────────────────
+    Route::resource('categorias', CategoriaController::class);
 
-        Route::patch(
-            '/categorias/{id}/estado',
-            [CategoriaController::class, 'cambiarEstado']
-        )->name('categorias.cambiarEstado');
+    Route::patch(
+        '/categorias/{id}/estado',
+        [CategoriaController::class, 'cambiarEstado']
+    )->name('categorias.cambiarEstado');
 });

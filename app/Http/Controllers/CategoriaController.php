@@ -29,7 +29,7 @@ class CategoriaController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'estado' => 'required'
+            'estado' => 'required|in:activo,inactivo',
         ]);
 
         Categoria::create([
@@ -57,40 +57,22 @@ class CategoriaController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'estado' => 'required'
+            'estado' => 'required|in:activo,inactivo',
         ]);
 
         $categoria = Categoria::findOrFail($id);
 
         $categoria->update([
             'nombre' => $request->nombre,
-            'estado' => $request->estado === 'activo'
+            'estado' => $request->estado,
         ]);
 
         return redirect()
             ->route('categorias.index')
-            ->with('success', 'Categoría actualizada');
+            ->with('success', 'Categoría actualizada correctamente');
     }
 
-    // Activar / Desactivar categoría
-    public function cambiarEstado($id)
-    {
-        $categoria = Categoria::findOrFail($id);
-
-        $categoria->estado = !$categoria->estado;
-        $categoria->save();
-
-        return redirect()
-            ->back()
-            ->with(
-                'success',
-                $categoria->estado
-                    ? 'Categoría activada'
-                    : 'Categoría desactivada'
-            );
-    }
-
-    // Eliminar categoría (opcional)
+    // Eliminar categoría
     public function destroy($id)
     {
         $categoria = Categoria::findOrFail($id);
@@ -98,7 +80,7 @@ class CategoriaController extends Controller
         $categoria->delete();
 
         return redirect()
-            ->back()
-            ->with('success', 'Categoría eliminada');
+            ->route('categorias.index')
+            ->with('success', 'Categoría eliminada correctamente');
     }
 }
